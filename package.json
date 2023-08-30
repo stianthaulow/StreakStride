@@ -4,7 +4,8 @@
   "private": true,
   "packageManager": "pnpm@8.6.12",
   "scripts": {
-    "build": "next build",
+    "build:dev": "next build",
+    "build": "next build && prisma migrate deploy",
     "dev": "next dev",
     "postinstall": "prisma generate",
     "lint": "next lint",
