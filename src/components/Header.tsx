@@ -10,6 +10,7 @@ import {
 import { signIn, signOut, useSession } from "next-auth/react";
 
 import { cn } from "~/utils/cn";
+import { siteConfig } from "~/utils/config";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import {
@@ -95,7 +96,7 @@ const MainNav = () => (
   <div className="hidden w-full justify-between md:flex">
     <Link href="/" className="mr-6 flex items-center space-x-2">
       <Footprints />
-      StreakStride
+      {siteConfig.name}
     </Link>
     <nav className="flex items-center space-x-6 text-sm font-medium">
       <NavLink href="/">Home</NavLink>

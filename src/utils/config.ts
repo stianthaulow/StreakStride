@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "run3",
+  name: "StreakStride",
 };
 
 export type SiteConfig = typeof siteConfig;
