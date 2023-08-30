@@ -3,6 +3,8 @@ import { calculateStreak } from "~/utils/streak";
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import type { SportType } from "~/server/strava";
 
+const oneMile = 1609.34;
+
 export const activityRouter = createTRPCRouter({
   getAll: protectedProcedure.query(async ({ ctx }) => {
     const totalStats = await ctx.prisma.activity.aggregate({
@@ -118,7 +120,7 @@ export const activityRouter = createTRPCRouter({
       where: {
         AND: [
           { sportType: { in: ["Run", "VirtualRun", "TrailRun"] } },
-          { distance: { gt: 1609.34 } }, // greater than a mile
+          { distance: { gt: oneMile } },
         ],
       },
       orderBy: { date: "desc" },
@@ -138,8 +140,6 @@ export const activityRouter = createTRPCRouter({
     };
 
     const [lastRun] = activities;
-
-    if (!lastRun) throw new Error("No runs found");
 
     return { streak, lastRun };
   }),

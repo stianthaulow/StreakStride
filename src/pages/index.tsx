@@ -16,18 +16,16 @@ type LastRunCardProps = {
 };
 
 const LastRunCard = ({ activity }: LastRunCardProps) => {
-  const since = activity?.date ? formatDistanceToNow(activity.date) : "never";
-  const distance = activity?.distance ? formatDistance(activity.distance) : "0";
-  const duration = activity?.movingTime
-    ? formatMovingTime(activity.movingTime)
-    : "0";
+  const lastRun = activity
+    ? `${formatDistance(activity.distance)} in ${formatMovingTime(
+        activity.movingTime,
+      )}, ${formatDistanceToNow(activity.date)} ago.`
+    : `No runs yet`;
 
   return (
     <Card>
       <CardHeader>Last run</CardHeader>
-      <CardContent>
-        {distance} in {duration}, {since} ago
-      </CardContent>
+      <CardContent>{lastRun}</CardContent>
     </Card>
   );
 };
