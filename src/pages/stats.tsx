@@ -5,6 +5,7 @@ import type { ColumnDef } from "@tanstack/react-table";
 import { getSession } from "next-auth/react";
 
 import { api } from "~/utils/api";
+import { siteConfig } from "~/utils/config";
 import { formatDistance } from "~/utils/format";
 import { ActivityTable } from "~/components/ActivityTable";
 import { Button } from "~/components/ui/button";
@@ -80,7 +81,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Strava Stats</title>
+        <title>{siteConfig.name} - Strava Stats</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="container">
