@@ -95,7 +95,7 @@ const MainNav = () => (
   <div className="hidden w-full justify-between md:flex">
     <Link href="/" className="mr-6 flex items-center space-x-2">
       <Footprints />
-      Run
+      StreakStride
     </Link>
     <nav className="flex items-center space-x-6 text-sm font-medium">
       <NavLink href="/">Home</NavLink>
