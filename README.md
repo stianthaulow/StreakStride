@@ -1,1 +1,3 @@
-# Run
+# StreakStride
+
+Running app
