@@ -13,6 +13,7 @@ export const activityRouter = createTRPCRouter({
     .input(
       z.object({
         sportTypes: z.array(SportTypeSchema),
+        includeCommutes: z.boolean().optional(),
       }),
     )
     .query(async ({ ctx, input }) => {
@@ -26,11 +27,13 @@ export const activityRouter = createTRPCRouter({
       });
 
       const sportTypes = input.sportTypes || SportTypeSchema.options;
+      const includeCommutes = input.includeCommutes || false;
 
       const list = await ctx.prisma.activity.findMany({
         orderBy: { date: "desc" },
         where: {
           sportType: { in: sportTypes as string[] },
+          isCommute: includeCommutes,
         },
       });
 

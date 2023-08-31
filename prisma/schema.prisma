@@ -64,6 +64,7 @@ model Activity {
     elapsedTime        Int
     totalElevationGain Float
     sportType          String
+    isCommute          Boolean  @default(false)
     User               User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
     userId             String?
 }

@@ -25,7 +25,9 @@ export function formatDistance(distanceInMeters: number) {
 
 export function formatMovingTime(seconds: number) {
   const duration = intervalToDuration({ start: 0, end: seconds * 1000 });
-  return formatDuration(duration, { format: ["hours", "minutes"] });
+  return formatDuration(duration, {
+    format: ["years", "months", "days", "hours", "minutes"],
+  });
 }
 
 export function formatActivityDate(date: Date) {

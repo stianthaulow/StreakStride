@@ -4,8 +4,9 @@ import NextError from "next/error";
 import Head from "next/head";
 import type { Activity } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
-import { formatDistanceToNow } from "date-fns";
+import { formatDistanceToNow, subDays } from "date-fns";
 import { getSession } from "next-auth/react";
+import type { DateRange } from "react-day-picker";
 
 import { api } from "~/utils/api";
 import { siteConfig } from "~/utils/config";
@@ -16,9 +17,23 @@ import {
 } from "~/utils/format";
 import { ActivityTable } from "~/components/ActivityTable";
 import { DataTableColumnHeader } from "~/components/ActivityTableColumn";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "~/components/ui/alert-dialog";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
+import { DateRangePicker } from "~/components/ui/date-range-picker";
+import { Separator } from "~/components/ui/separator";
 import { Spinner } from "~/components/ui/spinner";
+import { Switch } from "~/components/ui/switch";
 import { Toggle } from "~/components/ui/toggle";
 import { SportTypeSchema, type SportType } from "~/server/strava";
 
@@ -180,9 +195,15 @@ const initialSportTypeFilter = sportTypes
   .map((sportType) => sportType.value);
 
 const Home: NextPage = () => {
+  const [dateRange, setDateRange] = useState<DateRange | undefined>({
+    from: subDays(new Date(), 30),
+    to: new Date(),
+  });
+
   const [sportTypeFilter, setSportTypeFilter] = useState(
     initialSportTypeFilter as SportType[],
   );
+  const [includeCommutes, setIncludeCommutes] = useState(true);
 
   const isSportTypeIncluded = (sportType: SportType | SportType[]) =>
     Array.isArray(sportType)
@@ -292,14 +313,40 @@ const Home: NextPage = () => {
 
           <section className="flex flex-col items-end gap-4">
             <div className="flex gap-2">
-              <Button
-                className="w-56"
-                variant="secondary"
-                disabled={strava.isLoading}
-                onClick={() => void strava.mutateAsync({ includeAll: true })}
-              >
-                Get All Strava Activities
-              </Button>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button
+                    className="w-56"
+                    variant="secondary"
+                    disabled={strava.isLoading}
+                  >
+                    Get All Strava Activities
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent>
+                  <AlertDialogHeader>
+                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                    <AlertDialogDescription>
+                      This loads all your activities from Strava, it can take a
+                      while. Only do this if you have changed past activities in
+                      Strava, or the first time you use this app.
+                    </AlertDialogDescription>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction asChild>
+                      <Button
+                        onClick={() =>
+                          void strava.mutateAsync({ includeAll: true })
+                        }
+                      >
+                        Continue
+                      </Button>
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+
               <Button
                 className="w-56"
                 disabled={strava.isLoading}
@@ -317,6 +364,10 @@ const Home: NextPage = () => {
           </section>
         </div>
 
+        <Separator className="my-4" />
+
+        <DateRangePicker dateRange={dateRange} setDateRange={setDateRange} />
+
         <div className="flex justify-between">
           <div className="flex gap-2">
             {sportTypes.map((sportType) => (
@@ -330,7 +381,14 @@ const Home: NextPage = () => {
               </Toggle>
             ))}
           </div>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
+            <div className="mr-2 flex gap-2">
+              Include commutes?
+              <Switch
+                checked={includeCommutes}
+                onCheckedChange={(checked) => setIncludeCommutes(checked)}
+              />
+            </div>
             <Toggle
               pressed={isSportTypeIncluded(allRun)}
               onPressedChange={() => setSportTypeFilter(allRun)}
@@ -360,6 +418,27 @@ const Home: NextPage = () => {
               None
             </Toggle>
           </div>
+        </div>
+
+        <div className=" flex h-5 gap-2">
+          <p>
+            <span className="font-bold">Activity count:</span>{" "}
+            {activities.list.length}
+          </p>
+          <Separator orientation="vertical" />
+          <p>
+            <span className="font-bold">Total distance:</span>{" "}
+            {formatDistance(
+              activities.list.reduce((a, b) => a + b.distance, 0),
+            )}
+          </p>
+          <Separator orientation="vertical" />
+          <p>
+            <span className="font-bold">Total moving time:</span>{" "}
+            {formatMovingTime(
+              activities.list.reduce((a, b) => a + b.movingTime, 0),
+            )}
+          </p>
         </div>
 
         <ActivityTable columns={columns} data={activities.list} />

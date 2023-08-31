@@ -149,5 +149,6 @@ function mapActivity(activity: SummaryActivity) {
     movingTime: activity.moving_time,
     elapsedTime: activity.elapsed_time,
     totalElevationGain: activity.total_elevation_gain,
+    isCommute: activity.commute,
   };
 }
