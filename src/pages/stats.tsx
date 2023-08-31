@@ -1,4 +1,5 @@
 import type { GetServerSideProps, NextPage } from "next";
+import NextError from "next/error";
 import Head from "next/head";
 import type { Activity } from "@prisma/client";
 import type { ColumnDef } from "@tanstack/react-table";
@@ -64,6 +65,7 @@ const Home: NextPage = () => {
     data: activities,
     refetch: refetchActivities,
     status,
+    error,
   } = api.activity.getAll.useQuery();
 
   const strava = api.strava.getActivities.useMutation({
@@ -71,11 +73,20 @@ const Home: NextPage = () => {
   });
 
   if (status === "loading") {
-    return <p>Loading...</p>;
+    return (
+      <main className="container">
+        <p>Loading...</p>
+      </main>
+    );
   }
 
   if (status === "error") {
-    return <p>Error loading activities</p>;
+    return (
+      <NextError
+        title={error.message}
+        statusCode={error.data?.httpStatus ?? 500}
+      />
+    );
   }
 
   return (

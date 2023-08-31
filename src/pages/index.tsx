@@ -63,7 +63,12 @@ const HomePage: NextPage = () => {
       />
     );
 
-  if (status !== "success") return <p>Loading...</p>;
+  if (status !== "success")
+    return (
+      <main className="container">
+        <p>Loading...</p>
+      </main>
+    );
 
   const { streak, lastRun } = data;
 
