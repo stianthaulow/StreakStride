@@ -1,46 +1,50 @@
 import querystring from "querystring";
+import { z } from "zod";
 
 const baseUrl = "https://www.strava.com/api/v3/";
 
-export type SportType =
-  | "AlpineSki"
-  | "BackcountrySki"
-  | "Canoeing"
-  | "Crossfit"
-  | "EBikeRide"
-  | "Elliptical"
-  | "Golf"
-  | "Handcycle"
-  | "Hike"
-  | "IceSkate"
-  | "InlineSkate"
-  | "Kayaking"
-  | "Kitesurf"
-  | "NordicSki"
-  | "Ride"
-  | "RockClimbing"
-  | "RollerSki"
-  | "Rowing"
-  | "Run"
-  | "Sail"
-  | "Skateboard"
-  | "Snowboard"
-  | "Snowshoe"
-  | "Soccer"
-  | "StairStepper"
-  | "StandUpPaddling"
-  | "Surfing"
-  | "Swim"
-  | "TrailRun"
-  | "Velomobile"
-  | "VirtualRide"
-  | "VirtualRun"
-  | "Walk"
-  | "WeightTraining"
-  | "Wheelchair"
-  | "Windsurf"
-  | "Workout"
-  | "Yoga";
+export const SportTypeSchema = z.enum([
+  "AlpineSki",
+  "BackcountrySki",
+  "Canoeing",
+  "Crossfit",
+  "EBikeRide",
+  "Elliptical",
+  "Golf",
+  "Handcycle",
+  "Hike",
+  "IceSkate",
+  "InlineSkate",
+  "Kayaking",
+  "Kitesurf",
+  "NordicSki",
+  "Ride",
+  "RockClimbing",
+  "RollerSki",
+  "Rowing",
+  "Run",
+  "Sail",
+  "Skateboard",
+  "Snowboard",
+  "Snowshoe",
+  "Soccer",
+  "StairStepper",
+  "StandUpPaddling",
+  "Surfing",
+  "Swim",
+  "TrailRun",
+  "Velomobile",
+  "VirtualRide",
+  "VirtualRun",
+  "Walk",
+  "WeightTraining",
+  "Wheelchair",
+  "Windsurf",
+  "Workout",
+  "Yoga",
+]);
+
+export type SportType = z.infer<typeof SportTypeSchema>;
 
 enum ResourceState {
   Meta = 1,

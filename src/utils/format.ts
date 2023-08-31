@@ -1,4 +1,4 @@
-import { formatDuration, intervalToDuration } from "date-fns";
+import { format, formatDuration, intervalToDuration } from "date-fns";
 
 export function formatTime(timeInSeconds: number) {
   const hours = Math.floor(timeInSeconds / 3600);
@@ -25,7 +25,11 @@ export function formatDistance(distanceInMeters: number) {
 
 export function formatMovingTime(seconds: number) {
   const duration = intervalToDuration({ start: 0, end: seconds * 1000 });
-  return formatDuration(duration);
+  return formatDuration(duration, { format: ["hours", "minutes"] });
+}
+
+export function formatActivityDate(date: Date) {
+  return format(date, "EEEE yyyy-MM-dd HH:mm");
 }
 
 export const pluralize = (num: number, word: string, plural = word + "s") =>

@@ -25,7 +25,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <title>{siteConfig.name}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="relative flex min-h-screen flex-col">
+      <div className=" flex min-h-screen flex-col">
         <Header />
         <div className="flex-1 pt-5">{children}</div>
         {/* <SiteFooter /> */}

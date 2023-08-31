@@ -93,7 +93,7 @@ const ProfileMenu = () => {
 };
 
 const MainNav = () => (
-  <div className="hidden w-full justify-between md:flex">
+  <div className="z-50 hidden w-full justify-between md:flex">
     <Link href="/" className="mr-6 flex items-center space-x-2">
       <Footprints />
       {siteConfig.name}
@@ -109,7 +109,7 @@ const MainNav = () => (
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full bg-foreground/10">
+    <header className="sticky  top-0 z-50 w-full bg-gray-800">
       <div className="container flex h-14 items-center">
         <MainNav />
       </div>

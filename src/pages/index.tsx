@@ -6,26 +6,36 @@ import { useSession } from "next-auth/react";
 
 import { api, type RouterOutputs } from "~/utils/api";
 import { siteConfig } from "~/utils/config";
-import { formatDistance, formatMovingTime } from "~/utils/format";
+import { formatDistance, formatMovingTime, formatTime } from "~/utils/format";
 import { RunStreakCard } from "~/components/RunStreakCard";
 import { Button } from "~/components/ui/button";
-import { Card, CardContent, CardHeader } from "~/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 
 type LastRunCardProps = {
   activity: RouterOutputs["activity"]["getDashboardData"]["lastRun"];
 };
 
 const LastRunCard = ({ activity }: LastRunCardProps) => {
-  const lastRun = activity
-    ? `${formatDistance(activity.distance)} in ${formatMovingTime(
-        activity.movingTime,
-      )}, ${formatDistanceToNow(activity.date)} ago.`
-    : `No runs yet`;
+  const distance = activity ? formatDistance(activity.distance) : "";
+  const movingTime = activity ? formatTime(activity.movingTime) : "";
+  const when = activity ? formatDistanceToNow(activity.date) : "";
 
   return (
-    <Card>
-      <CardHeader>Last run</CardHeader>
-      <CardContent>{lastRun}</CardContent>
+    <Card className="grow">
+      <CardHeader>
+        <CardTitle>Last run</CardTitle>
+      </CardHeader>
+      <CardContent>
+        {activity ? (
+          <>
+            <p>{distance}</p>
+            <p>in {movingTime}</p>
+            <p>{when} ago</p>
+          </>
+        ) : (
+          <p>No runs yet</p>
+        )}
+      </CardContent>
     </Card>
   );
 };
@@ -70,7 +80,7 @@ const HomePage: NextPage = () => {
       </main>
     );
 
-  const { streak, lastRun } = data;
+  const { streak, lastRun, totals } = data;
 
   return (
     <>
@@ -79,7 +89,31 @@ const HomePage: NextPage = () => {
       </Head>
       <main className="container flex flex-col gap-5">
         <RunStreakCard {...streak} />
-        <LastRunCard activity={lastRun} />
+
+        <div className="flex gap-2">
+          <LastRunCard activity={lastRun} />
+          {Object.entries(totals).map(([key, period]) => (
+            <Card key={key} className="grow">
+              <CardHeader>
+                <CardTitle>{period.label}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p>
+                  <span className="font-bold">Total distance:</span>{" "}
+                  {formatDistance(period.distance)}
+                </p>
+                <p>
+                  <span className="font-bold">Moving time:</span>{" "}
+                  {formatMovingTime(period.movingTime)}
+                </p>
+                <p>
+                  <span className="font-bold">Elevation gain:</span>{" "}
+                  {Math.round(period.elevationGain)}m
+                </p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
         <Button onClick={() => updateActivitesFromStrava()}>
           Update activities from Strava
         </Button>
