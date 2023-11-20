@@ -10,7 +10,7 @@ dependencies:
     version: 3.0.0(react-hook-form@7.43.9)
   '@next-auth/prisma-adapter':
     specifier: ^1.0.5
-    version: 1.0.5(@prisma/client@5.0.0)(next-auth@4.21.1)
+    version: 1.0.5(@prisma/client@5.0.0)(next-auth@4.24.5)
   '@prisma/client':
     specifier: ^5.0.0
     version: 5.0.0(prisma@5.0.0)
@@ -90,8 +90,8 @@ dependencies:
     specifier: ^13.2.4
     version: 13.2.4(@babel/core@7.22.10)(react-dom@18.2.0)(react@18.2.0)
   next-auth:
-    specifier: ^4.21.1
-    version: 4.21.1(next@13.2.4)(react-dom@18.2.0)(react@18.2.0)
+    specifier: ^4.24.5
+    version: 4.24.5(next@13.2.4)(react-dom@18.2.0)(react@18.2.0)
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -895,14 +895,14 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@next-auth/prisma-adapter@1.0.5(@prisma/client@5.0.0)(next-auth@4.21.1):
+  /@next-auth/prisma-adapter@1.0.5(@prisma/client@5.0.0)(next-auth@4.24.5):
     resolution: {integrity: sha512-VqMS11IxPXrPGXw6Oul6jcyS/n8GLOWzRMrPr3EMdtD6eOalM6zz05j08PcNiis8QzkfuYnCv49OvufTuaEwYQ==}
     peerDependencies:
       '@prisma/client': '>=2.26.0 || >=3'
       next-auth: ^4
     dependencies:
       '@prisma/client': 5.0.0(prisma@5.0.0)
-      next-auth: 4.21.1(next@13.2.4)(react-dom@18.2.0)(react@18.2.0)
+      next-auth: 4.24.5(next@13.2.4)(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
   /@next/env@13.2.4:
@@ -4536,10 +4536,10 @@ packages:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
 
-  /next-auth@4.21.1(next@13.2.4)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-NYkU4jAPSVxWhCblE8dDFAnKM7kOoO/QEobQ0RoEVP9Wox99A3PKHwOAsWhSg8ahJG/iKIWk2Bo1xHvsS4R39Q==}
+  /next-auth@4.24.5(next@13.2.4)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-3RafV3XbfIKk6rF6GlLE4/KxjTcuMCifqrmD+98ejFq73SRoj2rmzoca8u764977lH/Q7jo6Xu6yM+Re1Mz/Og==}
     peerDependencies:
-      next: ^12.2.5 || ^13
+      next: ^12.2.5 || ^13 || ^14
       nodemailer: ^6.6.5
       react: ^17.0.2 || ^18
       react-dom: ^17.0.2 || ^18
